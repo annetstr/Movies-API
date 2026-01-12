@@ -1,0 +1,481 @@
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0rem;
+  text-align: center;
+}
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --warm-gradient: linear-gradient(135deg, #fef6ea 0%, #ffe8c9 25%, #ebe2d8 50%, hsl(34, 35%, 67%) 75%, #ae9882 100%);
+  --border-gradient: linear-gradient(135deg, #454442 0%, #83807e 25%, #ffd8a8 50%, #ffe8c9 75%, #8e867a 100%);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%
+}
+
+body {
+  background-image: url('/background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Глянцевый overlay через псевдоэлемент */
+body::before {
+  content: '';
+  position: fixed;
+  /* fixed для parallax */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  /* Стеклянный глянец*/
+  background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.2) 20%,
+      rgba(255, 255, 255, 0.1) 40%,
+      rgba(255, 255, 255, 0.05) 60%,
+      rgba(255, 255, 255, 0.1) 80%,
+      rgba(255, 255, 255, 0.2) 100%);
+  /* background: rgb(137 62 62 / 40%); */
+  mix-blend-mode: overlay;
+
+  /* Для анимированного блеска */
+  overflow: hidden;
+  z-index: 1;
+  pointer-events: none;
+  /* Пропускает клики */
+}
+
+/* Анимированный блеск поверх глянца */
+body::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
+  transform: skewX(-20deg);
+  animation: glossy-shine 8s infinite;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.app-header {
+  position: relative;
+  z-index: 3;
+  /* Выше overlay */
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@keyframes glossy-shine {
+  0% {
+    left: -100%;
+  }
+
+  20% {
+    left: 100%;
+  }
+
+  100% {
+    left: 100%;
+  }
+}
+
+/* Затемнение для лучшей читаемости текста */
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(172, 137, 137, 0.4);
+  backdrop-filter: blur(5px);
+  z-index: -1;
+  border-radius: 20px;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.movie-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.movie-column p {
+  margin: .5rem 0.1rem 0.2rem .1rem;
+  text-align: left;
+}
+
+.movie-box {
+  display: flex;
+  flex-direction: column;
+  font-size: 1em;
+  max-width: 40em;
+  max-height: auto;
+  /* margin-top: 1rem; */
+  border-style: groove;
+  border-color: rgb(28, 26, 25);
+  /* padding-left: 0.3em; */
+  /* background: linear-gradient(135deg,
+      #fef6ea 0%,
+      #ffe8c9 25%,
+      #ebe2d8 50%,
+      hsl(34, 35%, 67%) 75%,
+      #ae9882 100%); */
+  border: 2px solid;
+  border-image: var(--border-gradient) 1;
+  border-radius: 20px;
+  padding: 0.5em 1em;
+  box-shadow:
+    0 20px 40px rgba(255, 186, 102, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.movie-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.2),
+      transparent);
+  transition: left 0.7s;
+}
+
+.movie-box-p {
+  text-align: left;
+  border-color: rgb(28, 26, 25);
+  margin: 0.5rem 0;
+  color: #2b2e34;
+  font-size: .9rem;
+}
+
+.movie-box p:first-child,
+.movie-box p:last-child {
+  text-align: left;
+  margin: 0.3rem 0;
+}
+
+
+span {
+  font-weight: bold;
+}
+
+.movie-block {
+  margin: 0 0 0 1rem;
+  padding: 0 1rem 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-shadow: 0 0 1px #503a3a;
+  background: rgba(238, 242, 245, 0.3);
+  border-radius: 12px;
+}
+
+.movie-block>p {
+  text-align: justify;
+  display: block;
+  margin: 2rem 0;
+}
+
+#rate {
+  left: 0;
+  bottom: 0;
+}
+
+.search-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  animation: pulse 2s infinite;
+  transition: all 0.3s;
+  margin-left: 0.7rem;
+}
+
+.search-btn:hover {
+  animation: none;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 4px 25px rgba(102, 126, 234, 0.8);
+  }
+
+  100% {
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  }
+}
+
+.search-input {
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.95);
+  color: #333;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.1);
+  outline: none;
+  overflow: hidden;
+}
+
+.search-input:focus {
+  border-color: #667eea;
+  box-shadow:
+    0 0 0 3px rgba(102, 126, 234, 0.1),
+    0 4px 25px rgba(102, 126, 234, 0.2);
+  transform: translateY(2px);
+  background: white;
+}
+
+.search-input::placeholder {
+  color: #94a3b8;
+  /* position: relative;
+  display: inline-block;
+  white-space: nowrap;
+  -webkit-animation: smooth-marquee 25s infinite linear;
+  -moz-animation: smooth-marquee 25s infinite linear;
+  -o-animation: smooth-marquee 25s infinite linear;
+  animation: smooth-marquee 25s infinite linear;
+  padding-right: 10px; */
+}
+
+@-webkit-keyframes smooth-marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+
+@-moz-keyframes smooth-marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@-o-keyframes smooth-marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes smooth-marquee {
+  0% {
+    transform: translateX(100%);
+  }
+
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.subtitle {
+  margin: 2.5rem 0;
+  text-align: center;
+  font-weight: bold;
+}
+
+.movie-card {
+  margin-top: 2rem;
+  width: 100%;
+  overflow: auto;
+  /* Можно прокручивать только контейнер */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+#plot {
+  /* height: 1; */
+  line-height: 1.6;
+  color: #2b2e34;
+  margin: 1rem 0 0 0;
+  text-align: justify;
+}
+
+#movie-poster {
+  max-height: 23em;
+  width: auto;
+  /* Сохраняем пропорции */
+  vertical-align: middle;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+  transition: transform 0.3s;
+
+}
+
+#movie-poster:hover {
+  transform: scale(1.1);
+}
+
+
+#movie-poster-mbl {
+  display: none;
+}
+
+
+.movie-card::-webkit-scrollbar {
+  width: 8px;
+}
+
+
+/* добавлена отзывчивость */
+/* tablet */
+@media (max-width: 768px) {
+  .movie-box {
+    max-width: 100%;
+    margin: 1rem 10px;
+  }
+
+  .search-wrapper {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-input,
+  .search-btn {
+    width: 70%;
+  }
+
+  .search-btn {
+    margin: 0;
+  }
+
+  #movie-poster {
+    display: none;
+    /* max-width: 100%;
+    max-height: 20rem; */
+  }
+
+  .movie-card {
+    padding: 20px 15px;
+  }
+
+  #movie-poster-mbl {
+    display: inline;
+    max-width: 100%;
+    max-height: auto;
+  }
+
+  .movie-box-p {
+    font-size: 0.7em;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}
+
+/* mobile */
+@media (max-width: 425px) {
+  #movie-poster {
+    display: none;
+  }
+
+  #movie-poster-mbl {
+    display: inline;
+    max-height: 30em;
+    max-width: 100%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: .9rem;
+  }
+
+}
